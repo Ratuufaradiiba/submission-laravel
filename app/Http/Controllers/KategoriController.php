@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -11,7 +12,11 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        //
+        $kategori = Kategori::all();
+        return view('landingpage.pages.kategoridata', compact('kategori'), [
+            "title" => "Kategori Table",
+            "active" => "Artikel",
+        ]);
     }
 
     /**
@@ -19,7 +24,10 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        //
+        return view('landingpage.pages.kategori_form', [
+            "title" => "Buat Kategori",
+            "active" => "Kategori",
+        ]);
     }
 
     /**
@@ -27,38 +35,51 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|unique:kategori|max:45'
+        ]);
+
+        Kategori::create($request->all());
+
+        return redirect()->route('kategori.index')->with('success','Kategori Berhasil Disimpan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $kategori = Kategori::findOrFail($id);
+        return view('landingpage.pages.kategori_edit', compact('kategori'), [
+            "title" => "Edit Kategori Form",
+            "active" => "Kategori"
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required|unique:kategori,nama,'. $id .'|max:45'
+        ]);
+
+        $kategori = Kategori::findOrFail($id);
+        $kategori->nama = $request->nama;
+        $kategori->save();
+
+        return redirect()->route('kategori.index')->with('success', 'Kategori Berhasil Diupdate');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        try {
+            $row = Kategori::findOrFail($id);
+            Kategori::where('id', $id)->delete();
+            return redirect()->route('kategori.index')->with('success', 'Data Kategori Berhasil Di Hapus');
+        } catch (\Throwable $th) {
+            return redirect()->route('kategori.index')->with('error', 'Data Kategori Tidak Bisa Dihapus Karena Dipakai Di Transaksi Lain');
+        }
     }
 }

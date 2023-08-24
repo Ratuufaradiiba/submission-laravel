@@ -14,3 +14,51 @@
 <script src="{{ asset('landingpage/theme/plugins/google-map/gmap.js') }}"></script>
 <!-- main js -->
 <script src="{{ asset('landingpage/theme/js/custom.js') }}"></script>
+<script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+<script src="sweetalert2.all.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
+{{-- sweet alert --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ session('success') }}',
+                showConfirmButton: true,
+                timer: 1500
+            })
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: '{{ session('error') }}',
+                showConfirmButton: true,
+                timer: 1500
+            })
+        </script>
+    @endif
+    <script>
+        $('body').on('click', '.btnDelete', function(e) {
+            e.preventDefault();
+            var action = $(this).data('action');
+            Swal.fire({
+                title: 'Yakin ingin menghapus data ini?',
+                text: "Data yang sudah dihapus tidak bisa dikembalikan lagi",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Yakin'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#formDelete').attr('action', action);
+                    $('#formDelete').submit();
+                }
+            })
+        })
+    </script>

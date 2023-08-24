@@ -12,10 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('artikel', function (Blueprint $table) {
-            $table->id('id');
-            $table->string('judul')->required();
+            $table->id();
+            $table->foreignId('author_id')->constrained('users');
+            $table->foreignId('kategori_id')->constrained('kategori');
+            $table->string('judul', 255)->required();
+            $table->text('desc_artikel')->required();
             $table->text('teks_lengkap')->required();
-            $table->string('gambar')->nullable();
+            $table->string('gambar', 255)->nullable();
             $table->timestamps();
         });
     }

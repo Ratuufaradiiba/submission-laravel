@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6 text-center">
-                <a class="navbar-brand" href="index.html"><img src="{{asset('landingpage/theme/images/RevTech-Culture.png')}}" alt="" class="img-fluid"></a>
+                <a class="navbar-brand" href="index.html"><img src="{{asset('landingpage/theme/images/Glowria.png')}}" alt="" class="img-fluid"></a>
             </div>
         </div>
     </div>
@@ -47,17 +47,39 @@
                             <li class="nav-item">
                                 <a href="{{ url('artikel')}}" class="nav-link">Artikel</a>
                             </li>
+                            @if (!Auth::user())
+
+                            @else
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                 Master Data
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                                  <a class="dropdown-item" href="{{ route('artikeldata') }}">Artikel</a>
+                                  <a class="dropdown-item" href="{{ url('kategori') }}">Kategori</a>
+                                  <a class="dropdown-item" href="{{ url('tag') }}">Tags</a>
+                                </div>
+                            </li>
+                            @endif
                             <li class="nav-item">
-                                <a href="#" class="nav-link">Tentang Saya</a>
+                                <a href="{{route('about')}}" class="nav-link">Tentang Saya</a>
                             </li>
                             <li class="list-inline-item separator"></li>
-                
+
+                            @if (!Auth::user())
                             <li class="nav-item ">
-                                <a href="#" class="nav-link">Login</a>
+                                <a href="{{route('login')}}" class="nav-link">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">Register</a>
+                                <a href="{{route('register')}}" class="nav-link">Register</a>
                             </li>
+                            @else
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="nav-link" style="background: none; border: none; cursor: pointer;">Logout</button>
+                            </form>
+
+                            @endif
                         </ul>
                     </div>
                 </nav>

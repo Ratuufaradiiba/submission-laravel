@@ -2,56 +2,59 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $tag = Tag::all();
+        return view('landingpage.pages.tagdata', compact('tag'), [
+            "title" => "Tag Table",
+            "active" => "Artikel",
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view ('landingpage.pages.tag_form',[
+            "title" => "Buat Tag",
+            "active" => "Tag",
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|unique:tag|max:45'
+        ]);
+
+        Tag::create($request->all());
+
+        return redirect()->route('tag.index')->with('success','Tag Berhasil Disimpan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $tag = Tag::findOrFail($id);
+        return view('landingpage.pages.tag_edit', compact('tag'), [
+            "title" => "Edit Tag Form",
+            "active" => "Tag"
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $request->validate([
+            'nama' => 'required|unique:tag,nama,'. $id .'|max:45'
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        $tag = Tag::findOrFail($id);
+        $tag->nama = $request->nama;
+        $tag->save();
+
+        return redirect()->route('tag.index')->with('success', 'Tag Berhasil Diupdate');
     }
 
     /**

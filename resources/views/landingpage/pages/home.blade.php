@@ -40,7 +40,7 @@
 			</ul>
 		</div>
 		<div class="post-content">
-			<p>{{ $artikel1->teks_lengkap }}</p>
+			<p>{{ $artikel1->desc_artikel }}</p>
 		</div>
 	</article>
 
@@ -74,7 +74,7 @@
 						</ul>
 					</div>
 					<div class="post-content">
-						<p>{{ $row->teks_lengkap }}</p>
+						<p>{{ $row->desc_artikel }}</p>
 					</div>
 				</div>
 			</div>
@@ -84,7 +84,9 @@
 
 	<div class="pagination mt-5 pt-4">
 		<ul class="list-inline">
-        {{ $artikel->links('vendor.pagination.default') }}
+            <li class="list-inline-item">{{ $artikel->links('vendor.pagination.default') }}
+            </li>
+
 		</ul>
 	</div>
 

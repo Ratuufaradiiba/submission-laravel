@@ -16,7 +16,7 @@
                         </div>
                         <div class="slider-post-content">
                             <span class="cat-name text-color font-sm font-extra text-uppercase letter-spacing">{{ $row->kategori->nama}}</span>
-                            <h3 class="post-title mt-1"><a href="{{ url('culturedetail', $row->id)}}">{{ $row->judul }}</a></h3>
+                            <h3 class="post-title mt-1"><a href="{{ url('artikeldetail', $row->id)}}">{{ $row->judul }}</a></h3>
                             <span class=" text-muted  text-capitalize">{{ $row->created_at->format('F d, Y') }}</span>
                         </div>
                     </div>
